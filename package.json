@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/pkdq/speak-up/issues"
   },
-  "homepage": "https://github.com/pkdq/speak-up#readme"
+  "homepage": "https://github.com/pkdq/speak-up#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
