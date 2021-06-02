@@ -1,4 +1,18 @@
 const express = require('express')
+const mongoose = require('mongoose')
+const { Schema } = mongoose
+
+mongoose
+  .connect('mongodb://localhost:27017/speak-up', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log('CONNECTED TO DB !')
+  })
+  .catch((err) => {
+    console.warn('ERROR : ', err)
+  })
 
 const app = express()
 
