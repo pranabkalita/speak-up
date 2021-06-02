@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/pkdq/speak-up#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "express": "^4.17.1",
     "express-validator": "^6.11.1",
     "mongoose": "^5.12.12",
