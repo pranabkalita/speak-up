@@ -14,7 +14,7 @@ database.connect()
 const app = express()
 
 // Register Routes
-app.use('/', postRouter)
+app.use('/posts', postRouter)
 
 // Start app server
 const PORT = 3000
