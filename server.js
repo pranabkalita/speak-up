@@ -6,6 +6,7 @@ const express = require('express')
 // Project Imports
 const database = require('./config/database')
 const postRouter = require('./routes/Post')
+const authRouter = require('./routes/Auth')
 
 // Connect to database
 database.connect()
@@ -18,6 +19,7 @@ app.use(express.json({ limit: '10kb' }))
 
 // Register Routes
 app.use('/posts', postRouter)
+app.use('/auth', authRouter)
 
 // Start app server
 const PORT = 3000
