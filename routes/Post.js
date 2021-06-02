@@ -9,7 +9,7 @@ const postValidator = require('./../validators/post')
 const router = express.Router()
 
 router.get('/', postController.all)
-router.get('/:id', postController.getOne)
+router.get('/:slug', postController.getOne)
 router.post('/', postValidator.createValidator, postController.create)
 router.patch('/:id', postController.update)
 router.delete('/:id', postController.delete)

@@ -10,7 +10,7 @@ const postSchema = new Schema(
       required: [true, 'A Post must have a title.'],
     },
     slug: { type: String, unique: true },
-    body: { type: String, required: [true, 'A Post must have a title.'] },
+    body: { type: String, required: [true, 'A Post must have a body.'] },
     coverImage: String,
     images: Array,
     isDraft: { type: Boolean, default: false },

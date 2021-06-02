@@ -13,8 +13,35 @@ exports.all = async (req, res) => {
   })
 }
 
-exports.getOne = (req, res) => {
-  res.send('Get One Post')
+exports.getOne = async (req, res) => {
+  try {
+    const post = await Post.find({ slug: req.params.slug })
+
+    if (!post) {
+      return res.status(400).json({
+        status: 'fail',
+        data: {
+          message: 'No Post Found !',
+        },
+      })
+    }
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        post,
+      },
+    })
+  } catch (err) {
+    console.log('Error: ', err)
+
+    res.status(400).json({
+      status: 'fail',
+      data: {
+        errors: err.message,
+      },
+    })
+  }
 }
 
 exports.create = async (req, res) => {
@@ -31,8 +58,8 @@ exports.create = async (req, res) => {
 
     const post = await Post.create({ title, body })
 
-    res.status(200).json({
-      message: 'success',
+    res.status(201).json({
+      status: 'success',
       data: {
         post,
       },
@@ -41,7 +68,7 @@ exports.create = async (req, res) => {
     console.log('Error: ', err)
 
     res.status(400).json({
-      message: 'fail',
+      status: 'fail',
       data: {
         errors: err.message,
       },
@@ -49,10 +76,76 @@ exports.create = async (req, res) => {
   }
 }
 
-exports.update = (req, res) => {
-  res.send('Update One Post')
+exports.update = async (req, res) => {
+  try {
+    // const post = await Post.findByIdAndUpdate(
+    //   req.params.id,
+    //   {
+    //     title: req.body.title,
+    //     body: req.body.body,
+    //   },
+    //   {
+    //     new: true,
+    //   }
+    // )
+
+    const post = await Post.findById(req.params.id)
+
+    if (!post) {
+      return res.status(400).json({
+        status: 'fail',
+        data: {
+          message: 'No Post Found !',
+        },
+      })
+    }
+
+    post.title = req.body.title
+    post.body = req.body.body
+    await post.save({ validateBeforeSave: false })
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        post,
+      },
+    })
+  } catch (err) {
+    console.log('Error: ', err)
+
+    res.status(400).json({
+      status: 'fail',
+      data: {
+        errors: err.message,
+      },
+    })
+  }
 }
 
-exports.delete = (req, res) => {
-  res.send('Delete One Post')
+exports.delete = async (req, res) => {
+  try {
+    const post = await Post.findByIdAndDelete(req.params.id)
+
+    if (!post) {
+      return res.status(400).json({
+        status: 'fail',
+        data: {
+          message: 'No Post Found !',
+        },
+      })
+    }
+
+    res.status(204).json({
+      status: 'success',
+    })
+  } catch (err) {
+    console.log('Error: ', err)
+
+    res.status(400).json({
+      status: 'fail',
+      data: {
+        errors: err.message,
+      },
+    })
+  }
 }
