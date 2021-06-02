@@ -13,6 +13,9 @@ database.connect()
 // Initialize server
 const app = express()
 
+// Body Parser: Read data from the request body
+app.use(express.json({ limit: '10kb' }))
+
 // Register Routes
 app.use('/posts', postRouter)
 
