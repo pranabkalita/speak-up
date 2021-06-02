@@ -19,6 +19,7 @@
   "homepage": "https://github.com/pkdq/speak-up#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "express-validator": "^6.11.1",
     "mongoose": "^5.12.12",
     "slugify": "^1.5.3"
   },

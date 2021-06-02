@@ -4,9 +4,13 @@ const { Schema } = mongoose
 
 const postSchema = new Schema(
   {
-    title: { type: String, unique: true },
+    title: {
+      type: String,
+      unique: [true, 'A Post already exists with this title.'],
+      required: [true, 'A Post must have a title.'],
+    },
     slug: { type: String, unique: true },
-    body: String,
+    body: { type: String, required: [true, 'A Post must have a title.'] },
     coverImage: String,
     images: Array,
     isDraft: { type: Boolean, default: false },
