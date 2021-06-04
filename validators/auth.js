@@ -17,3 +17,8 @@ exports.signUpValidator = [
       }
     }),
 ]
+
+exports.signInValidator = [
+  validator.check('email', 'Please provide a valid email.').isEmail(),
+  validator.check('password', 'Please provide a valid password.').notEmpty(),
+]
