@@ -4,6 +4,11 @@ const { Schema } = mongoose
 
 const postSchema = new Schema(
   {
+    user: {
+      type: Schema.ObjectId,
+      ref: 'User',
+      required: [true, 'A post must belong to a user.'],
+    },
     title: {
       type: String,
       unique: [true, 'A Post already exists with this title.'],

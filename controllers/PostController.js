@@ -3,7 +3,20 @@ const validator = require('express-validator')
 const Post = require('./../models/Post')
 
 exports.all = async (req, res) => {
-  const posts = await Post.find()
+  const posts = await Post.find().sort('-createdAt')
+
+  res.status(200).json({
+    message: 'success',
+    data: {
+      posts,
+    },
+  })
+}
+
+exports.myPosts = async (req, res) => {
+  const user = req.user._id
+
+  const posts = await Post.find({ user })
 
   res.status(200).json({
     message: 'success',
@@ -55,8 +68,9 @@ exports.create = async (req, res) => {
 
   try {
     const { title, body } = req.body
+    const user = req.user._id
 
-    const post = await Post.create({ title, body })
+    const post = await Post.create({ user, title, body })
 
     res.status(201).json({
       status: 'success',

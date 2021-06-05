@@ -12,6 +12,7 @@ const authMiddleware = require('./../middlewares/auth')
 const router = express.Router()
 
 router.get('/', postController.all)
+router.get('/my-posts', authMiddleware.protect, postController.myPosts)
 router.get('/:slug', postController.getOne)
 router.post(
   '/',
