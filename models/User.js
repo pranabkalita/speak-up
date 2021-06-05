@@ -13,6 +13,8 @@ const userSchema = new Schema(
   },
   {
     timestamps: { currentTime: () => Math.floor(Date.now() / 1000) },
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
 )
 
@@ -25,6 +27,13 @@ userSchema.pre('save', async function (next) {
   this.password = await bcrypt.hash(this.password, 12)
 
   next()
+})
+
+// Virtual Populate: One To Many
+userSchema.virtual('posts', {
+  ref: 'Post',
+  foreignField: 'user',
+  localField: '_id',
 })
 
 // Model Functions

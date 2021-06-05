@@ -72,6 +72,28 @@ exports.signIn = async (req, res) => {
   })
 }
 
+exports.me = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id).populate('posts')
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        user,
+      },
+    })
+  } catch (err) {
+    console.log('Error: ', err)
+
+    res.status(400).json({
+      status: 'fail',
+      data: {
+        errors: err.message,
+      },
+    })
+  }
+}
+
 exports.signOut = (req, res) => {
   res.send('Sign Out')
 }
