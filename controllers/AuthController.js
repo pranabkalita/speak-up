@@ -57,8 +57,8 @@ exports.signIn = async (req, res) => {
   }
 
   // 3) If everything is fine, generate a token
-  const token = jwt.sign({ id: user._id }, 'SECRET', {
-    expiresIn: '90d',
+  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN,
   })
 
   // 4) Send response with the JWT token

@@ -1,7 +1,11 @@
 // Global Imports
 
 // Local Imports
+const dotenv = require('dotenv')
 const express = require('express')
+
+// Configure Dotenv
+dotenv.config({ path: './.env' })
 
 // Project Imports
 const database = require('./config/database')
