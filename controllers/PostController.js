@@ -13,19 +13,6 @@ exports.all = async (req, res) => {
   })
 }
 
-exports.myPosts = async (req, res) => {
-  const user = req.user._id
-
-  const posts = await Post.find({ user })
-
-  res.status(200).json({
-    message: 'success',
-    data: {
-      posts,
-    },
-  })
-}
-
 exports.getOne = async (req, res) => {
   try {
     const post = await Post.find({ slug: req.params.slug })
