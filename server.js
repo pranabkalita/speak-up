@@ -11,6 +11,7 @@ dotenv.config({ path: './.env' })
 const database = require('./config/database')
 const postRouter = require('./routes/Post')
 const authRouter = require('./routes/Auth')
+const tagROuter = require('./routes/Tag')
 
 // Connect to database
 database.connect()
@@ -24,6 +25,7 @@ app.use(express.json({ limit: '10kb' }))
 // Register Routes
 app.use('/posts', postRouter)
 app.use('/auth', authRouter)
+app.use('/tags', tagROuter)
 
 // Start app server
 const PORT = 3000
