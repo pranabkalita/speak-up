@@ -5,7 +5,7 @@ const { Schema } = mongoose
 const postSchema = new Schema(
   {
     user: {
-      type: Schema.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: 'User',
       required: [true, 'A post must belong to a user.'],
     },
@@ -20,6 +20,7 @@ const postSchema = new Schema(
     images: Array,
     isDraft: { type: Boolean, default: false },
     isPublished: { type: Boolean, default: false },
+    tags: [{ type: Schema.Types.ObjectId, ref: 'Tag' }],
   },
   {
     timestamps: { currentTime: () => Math.floor(Date.now() / 1000) },
