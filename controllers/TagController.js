@@ -15,7 +15,7 @@ exports.all = async (req, res) => {
 
 exports.getOne = async (req, res) => {
   try {
-    const tag = await Tag.find({ slug: req.params.slug })
+    const tag = await Tag.find({ slug: req.params.slug }).populate('posts')
 
     if (!tag) {
       return res.status(400).json({

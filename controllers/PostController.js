@@ -1,6 +1,21 @@
 const validator = require('express-validator')
 
 const Post = require('./../models/Post')
+const Tag = require('./../models/Tag')
+
+const addTagToPost = async (postId, tag) =>
+  Post.findByIdAndUpdate(
+    postId,
+    { $push: { tags: tag } },
+    { new: true, useFindAndModify: false }
+  )
+
+const addPostToTag = async (tagId, post) =>
+  Tag.findByIdAndUpdate(
+    tagId,
+    { $push: { posts: post } },
+    { new: true, useFindAndModify: false }
+  )
 
 exports.all = async (req, res) => {
   const posts = await Post.find().sort('-createdAt')
@@ -15,7 +30,9 @@ exports.all = async (req, res) => {
 
 exports.getOne = async (req, res) => {
   try {
-    const post = await Post.find({ slug: req.params.slug }).populate('user')
+    const post = await Post.find({ slug: req.params.slug })
+      .populate('user')
+      .populate('tags')
 
     if (!post) {
       return res.status(400).json({
@@ -58,6 +75,16 @@ exports.create = async (req, res) => {
     const user = req.user._id
 
     const post = await Post.create({ user, title, body })
+
+    if (typeof req.body.tags !== 'undefined' && req.body.tags.length > 0) {
+      await Promise.all(
+        req.body.tags.map(async (tag) => addTagToPost(post.id, tag))
+      )
+
+      await Promise.all(
+        req.body.tags.map(async (tag) => addPostToTag(tag, post.id))
+      )
+    }
 
     res.status(201).json({
       status: 'success',
@@ -103,7 +130,18 @@ exports.update = async (req, res) => {
 
     post.title = req.body.title
     post.body = req.body.body
+    post.tags = undefined
     await post.save({ validateBeforeSave: false })
+
+    if (typeof req.body.tags !== 'undefined' && req.body.tags.length > 0) {
+      await Promise.all(
+        req.body.tags.map(async (tag) => addTagToPost(post.id, tag))
+      )
+
+      await Promise.all(
+        req.body.tags.map(async (tag) => addPostToTag(tag, post.id))
+      )
+    }
 
     res.status(200).json({
       status: 'success',

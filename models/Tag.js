@@ -10,6 +10,8 @@ const tagSchema = new Schema(
   },
   {
     timestamps: { currentTime: () => Math.floor(Date.now() / 1000) },
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
 )
 
