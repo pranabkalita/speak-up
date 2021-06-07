@@ -22,6 +22,16 @@ tagSchema.pre('save', function (next) {
   next()
 })
 
+/** Remove reference from Post when a Tag is deleted. */
+tagSchema.pre('remove', async function (next) {
+  await this.model('Post').updateMany(
+    { tags: this._id },
+    { $pull: { tags: this._id } },
+    { multi: true },
+    next
+  )
+})
+
 const Tag = mongoose.model('Tag', tagSchema)
 
 module.exports = Tag

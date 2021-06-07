@@ -123,7 +123,8 @@ exports.update = async (req, res) => {
 
 exports.delete = async (req, res) => {
   try {
-    const tag = await Tag.findByIdAndDelete(req.params.id)
+    const tag = await Tag.findById(req.params.id)
+    await tag.remove()
 
     if (!tag) {
       return res.status(400).json({
