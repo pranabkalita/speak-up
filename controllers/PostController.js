@@ -1,7 +1,11 @@
 const validator = require('express-validator')
 
+// Model
 const Post = require('./../models/Post')
 const Tag = require('./../models/Tag')
+
+// Util
+const { filterObj } = require('./../utils/request')
 
 const addTagToPost = async (postId, tag) =>
   Post.findByIdAndUpdate(
@@ -71,10 +75,12 @@ exports.create = async (req, res) => {
   }
 
   try {
-    const { title, body } = req.body
-    const user = req.user._id
+    const filteredBody = filterObj(req.body, 'title', 'body')
+    filteredBody.user = req.user._id
 
-    const post = await Post.create({ user, title, body })
+    if (req.file) filteredBody.coverImage = req.file.filename
+
+    const post = await Post.create(filteredBody)
 
     if (typeof req.body.tags !== 'undefined' && req.body.tags.length > 0) {
       await Promise.all(
@@ -131,6 +137,9 @@ exports.update = async (req, res) => {
     post.title = req.body.title
     post.body = req.body.body
     post.tags = undefined
+
+    if (req.file) post.coverImage = req.file.filename
+
     await post.save({ validateBeforeSave: false })
 
     if (typeof req.body.tags !== 'undefined' && req.body.tags.length > 0) {
