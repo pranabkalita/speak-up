@@ -66,6 +66,7 @@ exports.getOne = async (req, res) => {
 }
 
 exports.create = async (req, res) => {
+  // Check for validation error
   const errors = validator.validationResult(req)
 
   if (!errors.isEmpty()) {
@@ -75,23 +76,37 @@ exports.create = async (req, res) => {
   }
 
   try {
+    // Prepare FilterBody
     const filteredBody = filterObj(req.body, 'title', 'body')
     filteredBody.user = req.user._id
 
-    if (req.file) filteredBody.coverImage = req.file.filename
+    // Include coverImage if exists
+    if (req.files.coverImage && req.files.coverImage.length > 0)
+      filteredBody.coverImage = req.files.coverImage[0].filename
 
+    // Include images is exists
+    if (req.files.images && req.files.images.length > 0) {
+      const postImages = req.files.images.map((image) => image.filename)
+      filteredBody.images = postImages
+    }
+
+    // Create Post
     const post = await Post.create(filteredBody)
 
+    // Check if tags are provided for the post
     if (typeof req.body.tags !== 'undefined' && req.body.tags.length > 0) {
+      // Add Tag reference to post
       await Promise.all(
         req.body.tags.map(async (tag) => addTagToPost(post.id, tag))
       )
 
+      // Add Post reference to tag
       await Promise.all(
         req.body.tags.map(async (tag) => addPostToTag(tag, post.id))
       )
     }
 
+    // Return status
     res.status(201).json({
       status: 'success',
       data: {

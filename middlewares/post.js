@@ -21,4 +21,8 @@ const multerFilter = (req, file, callBack) => {
 
 const upload = multer({ storage: multerStorage, fileFilter: multerFilter })
 
-exports.uploadPostImage = upload.single('coverImage')
+// exports.uploadPostImage = upload.single('coverImage')
+exports.uploadPostImage = upload.fields([
+  { name: 'coverImage', maxCount: 1 },
+  { name: 'images', maxCount: 3 },
+])

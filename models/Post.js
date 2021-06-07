@@ -17,7 +17,7 @@ const postSchema = new Schema(
     slug: { type: String, unique: true },
     body: { type: String, required: [true, 'A Post must have a body.'] },
     coverImage: String,
-    images: Array,
+    images: [String],
     isDraft: { type: Boolean, default: false },
     isPublished: { type: Boolean, default: false },
     tags: [{ type: Schema.Types.ObjectId, ref: 'Tag' }],
