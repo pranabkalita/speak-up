@@ -13,12 +13,17 @@ const database = require('./config/database')
 const postRouter = require('./routes/Post')
 const authRouter = require('./routes/Auth')
 const tagROuter = require('./routes/Tag')
+const viewRouter = require('./routes/View')
 
 // Connect to database
 database.connect()
 
 // Initialize server
 const app = express()
+
+// Setup view engine and view path
+app.set('view engine', 'pug')
+app.set('views', path.join(__dirname, 'views'))
 
 // STATIC File: Server static files
 app.use(express.static(path.join(__dirname, 'public')))
@@ -32,9 +37,18 @@ app.use(
 app.use(express.urlencoded({ extended: true }))
 
 // Register Routes
+app.use('', viewRouter)
 app.use('/posts', postRouter)
 app.use('/auth', authRouter)
 app.use('/tags', tagROuter)
+
+// Handle Unhandled routes
+app.all('*', (req, res, next) => {
+  res.status(404).json({
+    status: 'fail',
+    message: `Can't find ${req.originalUrl} on this server.`,
+  })
+})
 
 // Start app server
 const PORT = 3000
