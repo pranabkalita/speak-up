@@ -1,5 +1,21 @@
-exports.home = (req, res) => {
-  res.status(200).render('home')
+const Post = require('./../models/Post')
+
+exports.home = async (req, res) => {
+  const posts = await Post.find().sort('-createdAt')
+
+  res.status(200).render('home', {
+    title: 'All Posts',
+    posts,
+  })
+}
+
+exports.getPost = async (req, res) => {
+  const post = await Post.findOne({ slug: req.params.slug })
+
+  res.status(200).render('post', {
+    title: post.title,
+    post,
+  })
 }
 
 exports.about = (req, res) => {

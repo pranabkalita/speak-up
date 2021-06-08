@@ -1,0 +1,11 @@
+extends base
+
+block content
+  .row.mb-2
+    img.bd-placeholder-img(src=`/img/posts/${post.coverImage}` alt=`${post.title}`)
+    h2= post.title
+    p= post.body
+    
+    - if (post.images && post.images.length > 0)
+      each image in post.images
+        img.bd-placeholder-img(src=`/img/posts/${image}` alt=`${post.title}`)

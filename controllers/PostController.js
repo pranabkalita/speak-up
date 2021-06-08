@@ -34,7 +34,7 @@ exports.all = async (req, res) => {
 
 exports.getOne = async (req, res) => {
   try {
-    const post = await Post.find({ slug: req.params.slug })
+    const post = await Post.findOne({ slug: req.params.slug })
       .populate('user')
       .populate('tags')
 
@@ -137,7 +137,6 @@ exports.update = async (req, res) => {
     //     new: true,
     //   }
     // )
-
     const post = await Post.findById(req.params.id)
 
     if (!post) {
@@ -153,7 +152,15 @@ exports.update = async (req, res) => {
     post.body = req.body.body
     post.tags = undefined
 
-    if (req.file) post.coverImage = req.file.filename
+    // Include coverImage if exists
+    if (req.files.coverImage && req.files.coverImage.length > 0)
+      post.coverImage = req.files.coverImage[0].filename
+
+    // Include images is exists
+    if (req.files.images && req.files.images.length > 0) {
+      const postImages = req.files.images.map((image) => image.filename)
+      post.images = postImages
+    }
 
     await post.save({ validateBeforeSave: false })
 
