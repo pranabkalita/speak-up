@@ -3,7 +3,7 @@ exports.home = (req, res) => {
 }
 
 exports.about = (req, res) => {
-  res.status(200).json({ page: 'About' })
+  res.status(200).render('about')
 }
 
 exports.contact = (req, res) => {
