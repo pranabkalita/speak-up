@@ -27,7 +27,7 @@ exports.contact = (req, res) => {
 }
 
 exports.login = (req, res) => {
-  res.status(200).json({ page: 'Login' })
+  res.status(200).render('login')
 }
 
 exports.registration = (req, res) => {

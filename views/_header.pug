@@ -1,11 +1,16 @@
 header.blog-header.py-3
   .row.flex-nowrap.justify-content-between.align-items-center
     .col-4.pt-1
+      if user
+        a.p-2.link-secondary(href='/posts') My Posts
+        a.p-2.link-secondary(href='/tags') Tags
     .col-4.text-center
       a.blog-header-logo.text-dark(href='/') SpeakUp
     .col-4.d-flex.justify-content-end.align-items-center
       a.p-2.link-secondary(href='/') Posts
       a.p-2.link-secondary(href='/about') About
       a.p-2.link-secondary(href='/contact') Contact
-      a.btn.btn-sm.btn-outline-secondary(href='/login') Login
-      a.btn.btn-sm.btn-outline-secondary.ms-2(href='/register') Register
+      
+      if !user
+        a.btn.btn-sm.btn-outline-secondary(href='/login') Login
+        a.btn.btn-sm.btn-outline-secondary.ms-2(href='/register') Register

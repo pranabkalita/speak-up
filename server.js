@@ -4,6 +4,7 @@ const path = require('path')
 // Local Imports
 const dotenv = require('dotenv')
 const express = require('express')
+const cookieParser = require('cookie-parser')
 
 // Configure Dotenv
 dotenv.config({ path: './.env' })
@@ -35,6 +36,7 @@ app.use(
   })
 )
 app.use(express.urlencoded({ extended: true }))
+app.use(cookieParser())
 
 // Register Routes
 app.use('', viewRouter)

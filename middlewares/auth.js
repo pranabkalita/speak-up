@@ -41,3 +41,29 @@ exports.protect = async (req, res, next) => {
   req.user = freshUser
   next()
 }
+
+// Only for rendered pages with no errors
+exports.isLoggedIn = async (req, res, next) => {
+  // 1. Getting token and check if is exists
+  if (req.cookies.jwt) {
+    try {
+      // 2) Verification token
+      const decoded = await promisify(jwt.verify)(
+        req.cookies.jwt,
+        process.env.JWT_SECRET
+      )
+      // 3) Check if user still exists
+      const freshUser = await User.findById(decoded.id)
+
+      if (!freshUser) return next()
+
+      // 4) There is a logged in user
+      res.locals.user = freshUser
+      return next()
+    } catch (err) {
+      return next()
+    }
+  }
+
+  next()
+}
