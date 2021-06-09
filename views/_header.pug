@@ -11,6 +11,8 @@ header.blog-header.py-3
       a.p-2.link-secondary(href='/about') About
       a.p-2.link-secondary(href='/contact') Contact
       
-      if !user
+      if user
+        button#logoutButton.btn.btn-sm.btn-outline-secondary Logout
+      else
         a.btn.btn-sm.btn-outline-secondary(href='/login') Login
         a.btn.btn-sm.btn-outline-secondary.ms-2(href='/register') Register

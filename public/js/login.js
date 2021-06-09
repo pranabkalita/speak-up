@@ -1,5 +1,6 @@
 // DOM ELEMENTS
 const loginForm = document.getElementById('loginForm')
+const logoutButton = document.getElementById('logoutButton')
 
 if (loginForm) {
   loginForm.addEventListener('submit', async (e) => {
@@ -26,6 +27,24 @@ if (loginForm) {
         'danger',
         'Please fill all the details or invalid credentials !'
       )
+    }
+  })
+}
+
+if (logoutButton) {
+  logoutButton.addEventListener('click', async (e) => {
+    try {
+      const res = await axios({
+        method: 'GET',
+        url: 'http://127.0.0.1:3000/api/auth/sign-out',
+      })
+
+      if (res.data.status === 'success') {
+        showAlert('success', 'You have been logged out.')
+        location.reload(true)
+      }
+    } catch (err) {
+      showAlert('danger', 'Error logging out. Try again.')
     }
   })
 }
