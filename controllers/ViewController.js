@@ -31,7 +31,7 @@ exports.login = (req, res) => {
 }
 
 exports.registration = (req, res) => {
-  res.status(200).json({ page: 'Registration' })
+  res.status(200).render('registration')
 }
 
 exports.tags = (req, res) => {
