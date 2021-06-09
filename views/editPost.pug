@@ -1,0 +1,32 @@
+extends base
+
+block content
+  .row.mb-2
+    h2 Edit Post
+
+    form#editPostForm
+      .mb-3
+        label.form-label(for='title') Title
+        input#title.form-control(name='title' value=`${post.title}`)
+        input#postId.form-control(type='hidden' value=`${post.id}`)
+      .mb-3
+        label.form-label(for='body') Body
+        textarea#body.form-control(rows='3' name='body')= post.body
+      .mb-3
+        label.form-label(for='formFileSm') Cover Image
+        if (post.coverImage)
+          img.img-thumbnail(src=`/img/posts/${post.coverImage}`)
+
+        input#coverImage.form-control.form-control-sm(type='file' name='coverImage' accept='image/*')
+      .mb-3
+        label.form-label(for='formFileSm') Images (Max 3 files)
+
+        if (post.images && post.images.length > 0)
+          each image in images
+            img.img-thumbnail(src=`/img/posts/${image}`)
+
+        input#images.form-control.form-control-sm(name='images' type='file' multiple='' accept='image/*')
+      
+      button.btn.btn-primary(type='submit') Submit
+
+        

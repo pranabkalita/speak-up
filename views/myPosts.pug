@@ -1,0 +1,28 @@
+extends base
+
+block content
+  .row.mb-2
+    h2 My Posts
+
+    table.table
+      thead
+        tr
+          th(scope='col') #
+          th(scope='col') Title
+          th(scope='col') Created On
+          th(scope='col') Is Draft
+          th(scope='col') Is Published
+          th(scope='col') Actions
+      tbody
+        if (posts.length && posts.length > 0)
+          each post, index in posts
+            tr
+              th(scope='row')= index + 1
+              td= post.title
+              td= post.createdAt.toLocaleString('en-es', { month: 'long', year: 'numeric' })
+              td= post.isDraft
+              td= post.isPublished
+              td
+                a.btn.btn-sm.btn-outline-secondary(href='#') Delete
+                a.btn.btn-sm.btn-outline-secondary(href=`/posts/${post.slug}/edit`) Edit
+        

@@ -19,19 +19,27 @@ exports.getPost = async (req, res) => {
 }
 
 exports.about = (req, res) => {
-  res.status(200).render('about')
+  res.status(200).render('about', {
+    title: 'About',
+  })
 }
 
 exports.contact = (req, res) => {
-  res.status(200).render('contact')
+  res.status(200).render('contact', {
+    title: 'Contact',
+  })
 }
 
 exports.login = (req, res) => {
-  res.status(200).render('login')
+  res.status(200).render('login', {
+    title: 'Login',
+  })
 }
 
 exports.registration = (req, res) => {
-  res.status(200).render('registration')
+  res.status(200).render('registration', {
+    title: 'Register',
+  })
 }
 
 exports.tags = (req, res) => {
@@ -42,8 +50,44 @@ exports.createTag = (req, res) => {
   res.status(200).json({ page: 'Create Tag' })
 }
 
-exports.posts = (req, res) => {
-  res.status(200).json({ page: 'Posts List' })
+exports.posts = async (req, res) => {
+  const posts = await Post.find({ user: req.user.id })
+
+  res.status(200).render('myPosts', {
+    title: 'My Posts',
+    posts,
+  })
+}
+
+exports.editPost = async (req, res) => {
+  try {
+    const post = await Post.findOne({ slug: req.params.slug })
+      .populate('user')
+      .populate('tags')
+
+    if (!post) {
+      return res.status(400).json({
+        status: 'fail',
+        data: {
+          message: 'No Post Found !',
+        },
+      })
+    }
+
+    res.status(200).render('editPost', {
+      title: post.title,
+      post,
+    })
+  } catch (err) {
+    console.log('Error: ', err)
+
+    res.status(400).json({
+      status: 'fail',
+      data: {
+        errors: err.message,
+      },
+    })
+  }
 }
 
 exports.createPost = (req, res) => {

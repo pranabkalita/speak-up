@@ -41,7 +41,7 @@ if (logoutButton) {
 
       if (res.data.status === 'success') {
         showAlert('success', 'You have been logged out.')
-        location.reload(true)
+        location.assign('/')
       }
     } catch (err) {
       showAlert('danger', 'Error logging out. Try again.')
