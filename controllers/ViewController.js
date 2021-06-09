@@ -23,7 +23,7 @@ exports.about = (req, res) => {
 }
 
 exports.contact = (req, res) => {
-  res.status(200).json({ page: 'Contact' })
+  res.status(200).render('contact')
 }
 
 exports.login = (req, res) => {

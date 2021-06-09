@@ -11,13 +11,17 @@ block content
   .row.mb-2
 
     each post in posts
+
+      - let trimmedString = ''
+      - if (post.body) trimmedString = post.body.substring(0, 150) + '...'
+
       .col-md-6
         .row.g-0.border.rounded.overflow-hidden.flex-md-row.mb-4.shadow-sm.h-md-250.position-relative
           .col.p-4.d-flex.flex-column.position-static
             strong.d-inline-block.mb-2.text-primary World
             h3.mb-0= post.title
             .mb-1.text-muted= post.createdAt.toLocaleString('en-es', { month: 'long', year: 'numeric' })
-            p.card-text.mb-auto= post.body
+            p.card-text.mb-auto!= trimmedString
             a.stretched-link(href=`/posts/${post.slug}`) Continue reading
           .col-auto.d-none.d-lg-block
             img.bd-placeholder-img(width='200' height='250' src=`/img/posts/${post.coverImage}` alt=`${post.title}`)

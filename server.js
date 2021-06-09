@@ -38,9 +38,9 @@ app.use(express.urlencoded({ extended: true }))
 
 // Register Routes
 app.use('', viewRouter)
-app.use('/posts', postRouter)
-app.use('/auth', authRouter)
-app.use('/tags', tagROuter)
+app.use('/api/posts', postRouter)
+app.use('/api/auth', authRouter)
+app.use('/api/tags', tagROuter)
 
 // Handle Unhandled routes
 app.all('*', (req, res, next) => {

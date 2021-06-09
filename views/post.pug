@@ -1,11 +1,17 @@
 extends base
 
 block content
-  .row.mb-2
-    img.bd-placeholder-img(src=`/img/posts/${post.coverImage}` alt=`${post.title}`)
-    h2= post.title
-    p= post.body
+  .row.g-0.border.rounded.overflow-hidden.flex-md-row.mb-4.shadow-sm.position-relative
+    .col.p-4.d-flex.flex-column.position-static
+      a.strong.d-inline-block.mb-2.text-primary(href='/') Back to all posts
+      img.mb-4(width='100%' height='70%' src=`/img/posts/${post.coverImage}` alt=`${post.title}`)
+      h3.mb-2.text-center= post.title
+      .mb-1.text-muted.text-center= post.createdAt.toLocaleString('en-es', { month: 'long', year: 'numeric' })
+      p.card-text.mb-5!= post.body
     
-    - if (post.images && post.images.length > 0)
-      each image in post.images
-        img.bd-placeholder-img(src=`/img/posts/${image}` alt=`${post.title}`)
+      - if (post.images && post.images.length > 0)
+        .row
+          each image in post.images
+            .col-sm-4
+              .card(style='width: 18rem;')
+                img.card-img-top(src=`/img/posts/${image}` alt=`${post.title}`)
