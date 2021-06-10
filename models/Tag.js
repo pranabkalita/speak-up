@@ -9,7 +9,7 @@ const tagSchema = new Schema(
     posts: [{ type: Schema.Types.ObjectId, ref: 'Post' }],
   },
   {
-    timestamps: { currentTime: () => Math.floor(Date.now() / 1000) },
+    timestamps: true,
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
   }

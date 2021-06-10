@@ -2,36 +2,27 @@ extends base
 
 block content
   .row.mb-4.mt-4
-    h2 Edit Post
+    h2 Create Post
 
-    form#editPostForm
+    form#createPostForm
       .mb-3
         label.form-label(for='title') Title
-        input#title.form-control(name='title' value=`${post.title}`)
-        input#postId.form-control(type='hidden' value=`${post.id}`)
+        input#title.form-control(name='title')
+        input#postId.form-control(type='hidden')
 
       .mb-3
         label.form-label(for='body') Body
-        textarea#body.form-control(rows='3' name='body')= post.body
+        textarea#body.form-control(rows='3' name='body')
 
       .mb-3
         label.form-label(for='formFileSm') Cover Image
         input#coverImage.form-control.form-control-sm(type='file' name='coverImage' accept='image/*')
 
       .mb-3
-        if (post.coverImage)
-          img.img-thumbnail(src=`/img/posts/${post.coverImage}`)
-
-      .mb-3
         label.form-label(for='formFileSm') Images (Max 3 files)
         input#image1.form-control.form-control-sm(name='image1' type='file' accept='image/*')
         input#image2.form-control.form-control-sm(name='image2' type='file' accept='image/*')
         input#image3.form-control.form-control-sm(name='image3' type='file' accept='image/*')
-
-      .mb-3
-        if (post.images && post.images.length > 0)
-          each image in post.images
-            img.img-thumbnail(src=`/img/posts/${image}`)
 
       button.btn.btn-primary(type='submit') Submit
 

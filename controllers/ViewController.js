@@ -62,6 +62,7 @@ exports.posts = async (req, res) => {
 exports.editPost = async (req, res) => {
   try {
     const post = await Post.findOne({ slug: req.params.slug })
+      .sort('-createdAt')
       .populate('user')
       .populate('tags')
 
@@ -91,5 +92,7 @@ exports.editPost = async (req, res) => {
 }
 
 exports.createPost = (req, res) => {
-  res.status(200).json({ page: 'Create Post' })
+  res.status(200).render('createPost', {
+    title: 'Create Post',
+  })
 }

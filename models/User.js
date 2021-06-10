@@ -12,7 +12,7 @@ const userSchema = new Schema(
     isActive: { type: Boolean, default: true },
   },
   {
-    timestamps: { currentTime: () => Math.floor(Date.now() / 1000) },
+    timestamps: true,
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
   }
