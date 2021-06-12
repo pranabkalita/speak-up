@@ -1,7 +1,10 @@
 const editPostForm = document.getElementById('editPostForm')
+const createPostForm = document.getElementById('createPostForm')
+const deletePostForm = document.getElementById('deletePostForm')
 
-if (editPostForm) {
-  editPostForm.addEventListener('submit', async (e) => {
+if (editPostForm || createPostForm) {
+  const postForm = editPostForm ? editPostForm : createPostForm
+  postForm.addEventListener('submit', async (e) => {
     e.preventDefault()
 
     const postId = document.getElementById('postId').value
@@ -22,11 +25,21 @@ if (editPostForm) {
       form.append('images', image2)
       form.append('images', image3)
 
-      const res = await axios({
-        method: 'PATCH',
-        url: `http://127.0.0.1:3000/api/posts/${postId}`,
-        data: form,
-      })
+      let res
+
+      if (editPostForm) {
+        res = await axios({
+          method: 'PATCH',
+          url: `http://127.0.0.1:3000/api/posts/${postId}`,
+          data: form,
+        })
+      } else {
+        res = await axios({
+          method: 'POST',
+          url: `http://127.0.0.1:3000/api/posts`,
+          data: form,
+        })
+      }
 
       if (res.data.status === 'success') {
         showAlert('success', 'Post Updated !')
@@ -34,6 +47,27 @@ if (editPostForm) {
           location.assign('/posts')
         }, 2000)
       }
+    } catch (err) {
+      showAlert('danger', 'Please check all the details !')
+    }
+  })
+}
+
+if (deletePostForm) {
+  deletePostForm.addEventListener('submit', async (e) => {
+    e.preventDefault()
+
+    try {
+      const postId = document.getElementById('postId').value
+      const res = await axios({
+        method: 'DELETE',
+        url: `http://127.0.0.1:3000/api/posts/${postId}`,
+      })
+
+      showAlert('success', 'Post Deleted !')
+      window.setTimeout(() => {
+        location.assign('/posts')
+      }, 2000)
     } catch (err) {
       showAlert('danger', 'Please check all the details !')
     }

@@ -91,6 +91,24 @@ exports.editPost = async (req, res) => {
   }
 }
 
+exports.deletePost = async (req, res) => {
+  const post = await Post.findById(req.params.id)
+
+  if (!post) {
+    return res.status(400).json({
+      status: 'fail',
+      data: {
+        message: 'No Post Found !',
+      },
+    })
+  }
+
+  res.status(200).render('deletePost', {
+    title: 'Delete Post',
+    post,
+  })
+}
+
 exports.createPost = (req, res) => {
   res.status(200).render('createPost', {
     title: 'Create Post',

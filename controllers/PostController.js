@@ -195,7 +195,6 @@ exports.update = async (req, res) => {
 exports.delete = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id)
-    await post.remove()
 
     if (!post) {
       return res.status(400).json({
@@ -205,6 +204,8 @@ exports.delete = async (req, res) => {
         },
       })
     }
+
+    await post.remove()
 
     res.status(204).json({
       status: 'success',

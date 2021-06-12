@@ -18,8 +18,9 @@ viewRouter.get('/tags', auth.isLoggedIn, viewController.tags)
 viewRouter.get('/tags/create', auth.isLoggedIn, viewController.createTag)
 
 viewRouter.get('/posts', auth.protect, viewController.posts)
-viewRouter.get('/posts/creates', auth.isLoggedIn, viewController.createPost)
+viewRouter.get('/posts/create', auth.isLoggedIn, viewController.createPost)
 viewRouter.get('/posts/:slug', auth.isLoggedIn, viewController.getPost)
 viewRouter.get('/posts/:slug/edit', auth.protect, viewController.editPost)
+viewRouter.get('/posts/:id/delete', auth.protect, viewController.deletePost)
 
 module.exports = viewRouter

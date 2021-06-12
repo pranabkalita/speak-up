@@ -1,8 +1,12 @@
 extends base
 
 block content
-  .row.mb-2
-    h2 My Posts
+  .row.mb-2.mt-4
+    .col 
+      h2 My Posts
+    .col 
+    .col 
+      a.btn.btn-sm.btn-primary.float-end(href='/posts/create') + Create
 
     table.table
       thead
@@ -23,6 +27,6 @@ block content
               td= post.isDraft
               td= post.isPublished
               td
-                a.btn.btn-sm.btn-outline-secondary(href='#') Delete
+                a.btn.btn-sm.btn-outline-secondary(href=`/posts/${post.id}/delete`) Delete
                 a.btn.btn-sm.btn-outline-secondary(href=`/posts/${post.slug}/edit`) Edit
         
